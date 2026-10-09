@@ -36,7 +36,65 @@ public class MergeSort {
 		//*  4. Replace the original array section with the merged     *
 		//*     array.                                                 *
 		//**************************************************************
-
+		
+		if (left >= right) {
+			return; 
+		}
+		
+		int middle = left + (right - left) / 2;
+		
+		mergeSort(theArray, left, middle);
+		mergeSort(theArray, middle + 1, right);
+		
+		int[] leftHalf = new int[middle - left + 1];
+		int[] rightHalf = new int[right - middle];
+		
+		for (int i = 0; i < middle - left + 1; i++) {
+			leftHalf[i] = theArray[left + i];
+		}
+		
+		for (int i = 0; i < right - middle; i++) {
+			rightHalf[i] = theArray[middle + i + 1];
+		}
+		
+		int[] mergedArray = new int[(middle - left + 1) + (right - middle)];
+		
+		int leftIndex = 0;
+		int rightIndex = 0;
+		int mergedIndex = 0;
+		
+		while ((leftIndex < middle - left + 1) && (rightIndex < right - middle)) {
+			
+			if (leftHalf[leftIndex] <= rightHalf[rightIndex]) {
+				
+				mergedArray[mergedIndex] = leftHalf[leftIndex];
+				leftIndex++;
+				
+			} else {
+				
+				mergedArray[mergedIndex] = rightHalf[rightIndex];
+				rightIndex++;
+			}
+			
+			mergedIndex++;
+		}
+		
+		
+		while (leftIndex < middle - left + 1) {
+			mergedArray[mergedIndex] = leftHalf[leftIndex];
+			leftIndex++;
+			mergedIndex++;
+		}
+		
+		while (rightIndex < right - middle) {
+			mergedArray[mergedIndex] = rightHalf[rightIndex];
+			rightIndex++;
+			mergedIndex++;
+		}
+		
+		for (int i = 0; i < mergedArray.length; i++) {
+			theArray[left + i] = mergedArray[i];
+		}
 	}
 	
 	public static void mergeSort(int[] array) {
